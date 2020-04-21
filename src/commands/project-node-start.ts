@@ -16,6 +16,7 @@ export async function projectNodeStart(_argv: Array<string>) {
     entryPath,
     projectPath,
     publicBuildPath,
+    internals: [],
   });
 
   process.on('SIGINT', () => process.exit());

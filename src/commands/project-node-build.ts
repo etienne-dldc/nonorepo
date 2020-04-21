@@ -22,6 +22,8 @@ export async function projectNodeBuild(_argv: Array<string>) {
   const workspacePkg = workspaceInfo.root.packageJson;
   const projectPkg = readPackageJSON(projectPath);
 
+  const internals = workspaceInfo.packages.map(pkg => pkg.packageJson.name);
+
   if (fse.existsSync(buildPath)) {
     fse.emptyDirSync(buildPath);
   }
@@ -36,6 +38,7 @@ export async function projectNodeBuild(_argv: Array<string>) {
     buildPath,
     entryPath,
     publicBuildPath,
+    internals,
   });
 
   process.on('SIGINT', () => {

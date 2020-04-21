@@ -9,6 +9,7 @@ export interface CreateWebpackConfigOptions {
   buildPath: string;
   publicBuildPath: string;
   entryPath: string;
+  internals: Array<string>;
 }
 
 // This is the Webpack configuration.
@@ -38,9 +39,11 @@ export function createWebpackConfig(options: CreateWebpackConfigOptions): webpac
     externals: [
       (_context, request, callback) => {
         const isRelative = request[0] === '.';
-        const isPrivate = (request as string).startsWith('@lereacteur/');
+        const isInternal = options.internals.some(
+          internal => request === internal || request.startsWith(internal + '/')
+        );
         const isEntry = request === options.entryPath;
-        if (isEntry || isRelative || isPrivate) {
+        if (isEntry || isRelative || isInternal) {
           // console.log(`internal ${request}`);
           (callback as any)();
         } else {
