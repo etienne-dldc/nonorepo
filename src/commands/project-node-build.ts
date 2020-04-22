@@ -33,7 +33,7 @@ export async function projectNodeBuild(_argv: Array<string>) {
   });
 
   const serverConfig = createWebpackConfig({
-    env: process.env.NODE_ENV === 'development' ? 'development' : 'production',
+    env: 'production',
     projectPath,
     buildPath,
     entryPath,
