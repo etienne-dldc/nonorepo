@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-// import nodeExternals from 'webpack-node-externals';
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 import { createBabelConfig } from './createBabelConfig';
 

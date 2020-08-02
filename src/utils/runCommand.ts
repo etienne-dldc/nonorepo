@@ -3,7 +3,7 @@ import { spawnSync } from 'child_process';
 export function runCommand(command: string, cwd?: string): string {
   const [c, ...args] = command.split(' ');
   const result = spawnSync(c, args, {
-    encoding: 'UTF8',
+    encoding: 'utf8',
     env: process.env,
     stdio: 'pipe',
     cwd,
