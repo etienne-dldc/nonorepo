@@ -35,24 +35,25 @@ export function createWebpackConfig(options: CreateWebpackConfigOptions): webpac
     // it makes debugging dramatically easier.
     devtool: 'source-map',
 
-    externals: [
-      (_context, request, callback) => {
-        const isRelative = request[0] === '.';
-        const isInternal = options.internals.some(
-          internal => request === internal || request.startsWith(internal + '/')
-        );
-        const isEntry = request === options.entryPath;
-        if (isEntry || isRelative || isInternal) {
-          // console.log(`internal ${request}`);
-          (callback as any)();
-        } else {
-          // external
-          // console.log(`external ${request}`);
-          callback(null, `commonjs ${request}`);
-        }
-      },
-    ],
-
+    externals: ({ request }, callback) => {
+      if (!request) {
+        (callback as any)();
+        return;
+      }
+      const isRelative = request[0] === '.';
+      const isInternal = options.internals.some(
+        internal => request === internal || request.startsWith(internal + '/')
+      );
+      const isEntry = request === options.entryPath;
+      if (isEntry || isRelative || isInternal) {
+        // console.log(`internal ${request}`);
+        (callback as any)();
+      } else {
+        // external
+        // console.log(`external ${request}`);
+        callback(undefined, `commonjs ${request}`);
+      }
+    },
     // externals: [
     //   nodeExternals({
     //     modulesFromFile: true,

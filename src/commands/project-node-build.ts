@@ -48,6 +48,10 @@ export async function projectNodeBuild(_argv: Array<string>) {
   const serverCompiler = webpack(serverConfig);
 
   serverCompiler.run((error, stats) => {
+    if (!stats) {
+      // TODO: What ?
+      return;
+    }
     if (error || stats.hasErrors()) {
       process.exitCode = 1;
     } else {
